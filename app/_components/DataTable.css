@@ -1,0 +1,42 @@
+.DataTableContainer {
+    overflow-x: auto;
+  }
+  
+  .DataTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .DataTable th,
+  .DataTable td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .ColumnResizer {
+    position: absolute;
+    top: 0;
+    right: -5px; /* Adjust this value to change the width of the resizer */
+    bottom: 0;
+    width: 10px; /* Adjust this value to change the width of the resizer */
+    cursor: col-resize;
+    background-color: transparent;
+  }
+  
+  .data-table tbody tr td:not(:first-child) {
+    position: relative;
+  }
+  
+  .data-table tbody tr td:not(:first-child)::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity and color as needed */
+  }
+  

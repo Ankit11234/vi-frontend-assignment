@@ -1,7 +1,3 @@
-"use client";
-
-
-
 import React, { useState } from "react";
 import {
     Table,
@@ -11,7 +7,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import "./DataTable.css";
 import {
     ColumnDef,
     flexRender,
@@ -20,8 +15,6 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { DataTablePagination } from "./data-table-pagination";
-
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -42,27 +35,13 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         setSelectedRowId(rowId === selectedRowId ? null : rowId);
     };
 
-    const [columnWidths, setColumnWidths] = useState(() => {
-        const initialWidth = `${100 / columns.length}%`;
-        return Array(columns.length).fill(initialWidth);
-    });
-
-   
-
     return (
         <div className="space-y-4">
-            <div className="rounded-md border overflow-x-auto">
+            <div className="rounded-md border">
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead
-                                style={{
-                                    position: "sticky",
-                                    left: 0,
-                                    zIndex: 1,
-                                    backgroundColor: "white",
-                                }}
-                            >
+                            <TableHead style={{ position: "sticky", left: 0, zIndex: 1 }}>
                                 <input
                                     type="checkbox"
                                     checked={selectedRowId !== null}
@@ -71,31 +50,26 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                                     }}
                                 />
                             </TableHead>
-
-                            {table.getHeaderGroups().map((headerGroup, index) => (
+                            <TableHead
+                                style={{
+                                    position: "sticky",
+                                    left: "37px", // Adjust as needed
+                                    zIndex: 1,
+                                }}
+                            >
+                                Task
+                            </TableHead>
+                            {table.getHeaderGroups().map((headerGroup) => (
                                 <React.Fragment key={headerGroup.id}>
-                                    {headerGroup.headers.map((header, idx) => (
+                                    {headerGroup.headers.map((header, index) => (
                                         <TableHead
-                                            className="hover:bg-[#F1F5F9]"
                                             key={header.id}
                                             style={{
-                                                position: idx < 1 ? "sticky" : "relative",
-                                                left: idx < 1 ? "29px" : "auto",
-                                                zIndex: idx < 1 ? 1 : "auto",
-                                                width: columnWidths[idx],
-                                                backgroundColor: idx < 1 ? "white" : "",
-
-                                                pointerEvents:
-                                                    idx < 2
-                                                        ? "none"
-                                                        : "auto" ,
-                                                overflow: "hidden",
-                                                whiteSpace: "nowrap",
-                                                textOverflow: "ellipsis",
+                                                position: index < 3 ? "sticky" : "static",
+                                                left: index < 3 ? `${index * 100 + 100}px` : "auto",
+                                                zIndex: index < 3 ? 2 : "auto",
                                             }}
                                         >
-                                          
-
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -112,44 +86,26 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
-                                    className={`hover:bg-[#F1F5F9]  ${
-                                        row.id === selectedRowId ? "!bg-[#F1F5F9]" : ""
-                                    }  `}
                                     key={row.id}
                                     data-state={row.id === selectedRowId ? "selected" : undefined}
                                     onMouseEnter={() => {}}
                                     onMouseLeave={() => {}}
                                 >
-                                    <TableCell
-                                        style={{
-                                            position: "sticky",
-                                            left: 0,
-                                            width: "10px",
-                                            zIndex: 1,
-                                            backgroundColor: "white",
-                                        }}
-                                    >
+                                    <TableCell style={{ position: "sticky", left: 0, zIndex: 1 }}>
                                         <input
                                             type="checkbox"
                                             checked={row.id === selectedRowId}
                                             onChange={() => handleCheckboxChange(row.id)}
                                         />
                                     </TableCell>
-                                    {row.getVisibleCells().map((cell, idx) => (
+                                    
+                                    {row.getVisibleCells().map((cell, index) => (
                                         <TableCell
-                                            className={`hover:bg-[#F1F5F9] !w-8  ${
-                                                row.id === selectedRowId ? "!bg-[#F1F5F9]" : ""
-                                            }  `}
                                             key={cell.id}
                                             style={{
-                                                position: idx < 1 ? "sticky" : "relative",
-                                                left: idx < 1 ? "29px" : "auto",
-                                                zIndex: idx < 1 ? 1 : 0,
-                                                backgroundColor: idx < 1 ? "white" : "",
-                                                width: "19px",
-                                                overflow: "hidden",
-                                                whiteSpace: "nowrap",
-                                                textOverflow: "ellipsis",
+                                                position: index < 3 ? "sticky" : "static",
+                                                left: index < 3 ? `${index * 100 + 100}px` : "auto",
+                                                zIndex: index < 3 ? 2 : "auto",
                                             }}
                                         >
                                             {flexRender(
